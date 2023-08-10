@@ -1,6 +1,6 @@
 resource "aws_vpc" "new_vpc" {
   cidr_block = var.cidr
-  tags {
+  tags = {
     Name = "Terraform-VPC"
   }
 }
@@ -10,7 +10,7 @@ resource "aws_subnet" "sub1" {
   cidr_block = "10.0.0.0/24"
   availability_zone = "us-east-1a"
   map_public_ip_on_launch = true
-  tags {
+  tags = {
     Name = "Terraform-sub1"
   }
   
@@ -20,7 +20,7 @@ resource "aws_subnet" "sub2" {
   cidr_block = "10.0.1.0/24"
   availability_zone = "us-east-1b"
   map_public_ip_on_launch = true
-  tags {
+  tags = {
     Name = "Terraform-sub2"
   }
 }
@@ -28,7 +28,7 @@ resource "aws_subnet" "sub2" {
 
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.new_vpc.id
-    tags {
+    tags = {
     Name = "Terraform-igw"
   }
 }
@@ -39,7 +39,7 @@ resource "aws_route_table" "rt" {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.igw.id
   }
-    tags {
+    tags  = {
     Name = "Terraform-rt"
   }
 }
@@ -47,14 +47,8 @@ resource "aws_route_table" "rt" {
 resource "aws_route_table_association" "rta1" {
   subnet_id = aws_subnet.sub1.id
   route_table_id = aws_route_table.rt.id
-    tags {
-    Name = "Terraform-rta1"
-  }
 }
 resource "aws_route_table_association" "rta2" {
   subnet_id = aws_subnet.sub2.id
   route_table_id = aws_route_table.rt.id
-      tags {
-    Name = "Terraform-rta2"
-  }
 }
